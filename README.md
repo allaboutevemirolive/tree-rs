@@ -1,150 +1,93 @@
-# TreeCraft
+# tree-rs
 
-> UPDATE: TREECRAFT CURRENTLY IN FREEZE SHIPPING AND WILL BE GOING RAPID DEVELOPMENT AND BREAKING CHANGES.
+### Project Description: A Modern `tree` in Rust
 
-TreeCraft is a command-line tool developed in pure Rust, designed for displaying directory structures in ASCII format on the terminal or saving them to a text file. It serves as a seamless replacement for the [tree](https://github.com/Old-Man-Programmer/tree.git) utility written in C. The primary goal of this project is to provide a non-bloated and more functional alternative to the existing [tree](https://github.com/Old-Man-Programmer/tree.git).
+This project is a modern reimagining of the classic `tree` command, built in Rust for performance, safety, and correctness. It retains the core functionality beloved by users while overhauling the command-line interface to follow contemporary best practices.
 
-What to anticipate:
+The redesigned CLI prioritizes **clarity, consistency, and ergonomics** through several key principles:
 
-- A direct replacement for [tree](https://github.com/Old-Man-Programmer/tree.git).
-- Swift and efficient performance across various platforms.
-- Respect for `.gitignore` rules and graceful handling of hidden files (planned).
-- A minimalist design that is more functional compared to the current [tree](https://github.com/Old-Man-Programmer/tree.git).
+*   **Intuitive Arguments:** It favors descriptive, long-form arguments (e.g., `--dirs-only`, `--full-path`) and reserves standard short flags (`-h` for help) for their expected functions.
+*   **Consolidated Options:** Functionality is grouped logically under single, powerful flags. For example, sorting is managed with `--sort <key>` and output formats with `--output <format>`, reducing the number of top-level flags to remember.
+*   **Ecosystem Harmony:** The design aligns with conventions established by other modern CLI tools like `eza`, `ripgrep`, and `bat`, making it feel familiar and predictable to users.
 
-What not to expect:
+The goal is to create a `tree` command that is not only a powerful utility for scripting but is also a pleasure for users to discover and use interactively.
 
-- No integration of other existing [GNU utilities](https://github.com/coreutils/coreutils.git), as they are already well-suited for their respective purposes and do not align with the goals of this project.
-Example output:
+### `tree-rs` Command Arguments
 
-```
-$ tc
-
- release
-    .
-    ├── build
-    ├── deps
-    │   ├── treecraft-52fb4a3e910503fe
-    │   └── treecraft-52fb4a3e910503fe.d
-    ├── examples
-    ├── incremental
-    └── treecraft.d
+### Basic Usage
+- [ ] **`tree`**: Display the tree of the current directory.
+- [ ] **`tree [path]`**: Display the tree of a specific path.
+- [ ] **`tree [path1] [path2] ...`**: Display the tree for multiple paths.
 
 
- Insights:
-    .
-    ├── Processing Time      : 0.00037471 seconds
-    ├── Visible Dirs         : 4
-    ├── Visible Files        : 3
-    ├── *Hidden Dirs/Files   : 2
-    ├── Total Items(excl.*)  : 7
-    └── Total Size           : 0.00 GB (4,809,968 bytes)
-```
-
-## Command Line Options
-
-TreeCraft offers several command line options:
-
-```
-Usage: tc [OPTIONS]
-
-Options:
-  -d, --default         Print default layout. Etc. GNU tree's layout
-  -s, --case-sensitive  Sort list in case-sensitive
-  -f, --file            Printout output in a text file
-  -h, --help            Print help
-```
+### Filtering & Traversal Control
+- [ ] **`-a, --all`**: List all files, including hidden "dotfiles".
+- [ ] **`-L, --max-depth <level>`**: Descend only `<level>` directories deep. *(Note: -L is kept for legacy, though -M would avoid collision with `ls`'s --follow-symlinks)*.
+- [ ] **`-d, --dirs-only`**: List directories only.
+- [ ] **`--follow-symlinks`**: Follow symbolic links to directories as if they were real directories. *(Note: The ambiguous `-l` is removed to avoid conflict with `ls -l`)*.
+- [ ] **`-x, --one-filesystem`**: Stay on the current filesystem only.
+- [ ] **`-P, --pattern <glob>`**: Include only files and directories matching the wildcard `<glob>`.
+- [ ] **`-I, --ignore <glob>`**: Exclude files and directories matching the wildcard `<glob>`.
+- [ ] **`-i, --ignore-case`**: Makes pattern matching case-insensitive.
+- [ ] **`--match-dirs`**: In pattern matching, apply the pattern to directory names to control traversal.
+- [ ] **`--prune`**: Prune empty directories from the output.
+- [ ] **`--limit-entries <num>`**: Do not descend into directories containing more than `<num>` entries.
+- [ ] **`--from-file <file>`**: Read paths to process from a specified `<file>`.
 
 
-# Recommended Usage
 
-### 1. Compile with `cargo build --release`
-
-Compile TreeCraft with the following command, which generates highly efficient code tailored to your platform:
-
-```bash
-cargo build --release
-```
-
-### 2. Usage from Source Code
-
-1. Clone this repository or download the source code.
-
-2. Navigate to the `src` folder.
-
-3. Initialize the project with Cargo by running:
-
-   ```bash
-   cargo init
-   ```
-
-4. Generate an ASCII tree view with the following command:
-
-   ```bash
-   cargo run "filepath" "flag"
-   ```
-
-   For example:
-
-   ```bash
-   cargo run /home/nemesis/Documents/Github/Focus/lang -tf
-   ```
-
-### 3. Usage of the `treecraft` Binary
-
-Download the treecraft binary and follow these steps:
-
-1. Place the `treecraft` binary in the directory where you want to generate a tree view.
-
-2. Open your terminal and navigate to the folder containing the `treecraft` binary:
-
-   ```bash
-   cd "filepath"
-   ```
-
-3. Make the binary executable with the following command:
-
-   ```bash
-   chmod +x tc
-   ```
-
-4. Generate an ASCII tree view in the terminal by running:
-
-   ```bash
-   ./tc "filepath"
-   ```
-
-   Replace `"filepath"` with the path to the directory you want to visualize.
+### File Information Display
+- [ ] **`-p, --permissions`**: Print file type and permissions.
+- [ ] **`-u, --user`**: Print the username or UID.
+- [ ] **`-g, --group`**: Print the group name or GID.
+- [ ] **`-s, --size`**: Print the size of each file in bytes.
+- [ ] **`--human`**: In combination with `--size`, print sizes in human-readable format (K, M, G). *(Note: `-h` is now reserved for `--help`)*.
+- [ ] **`--si`**: Use SI units (powers of 1000) for human-readable sizes.
+- [ ] **`--date`**: Print the last modification date. *(Replaces the ambiguous -D)*.
+- [ ] **`--time-format <format>`**: Format the date/time output using `strftime` syntax.
+- [ ] **`--inode`**: Print the inode number for each file.
+- [ ] **`--dev`**: Print the device ID for each file.
 
 
-# Create a Linux alias (tested in Debian).
+### Sorting Options
+- [ ] **`--sort <key>`**: Specify the sort key. Keys include:
+    - `name` (default): Alphabetical sort.
+    - `version`: Natural sort of numbers within text.
+    - `time`: Sort by modification time.
+    - `ctime`: Sort by status change time.
+    - `none`: Do not sort; list in directory order.
+- [ ] **`-r, --reverse`**: Reverse the sort order.
+- [ ] **`--dirs-first`**: List directories before files at the same level.
 
-1. Open your `.bashrc` file for editing by running this command:
 
-   ```bash
-   nano ~/.bashrc
-   ```
+### Output Formatting & Graphics
+- [ ] **`-f, --full-path`**: Print the full path prefix for each file.
+- [ ] **`--no-indent`**: Do not print the indentation lines.
+- [ ] **`--color <when>`**: Control colorization. `<when>` can be:
+    - `always`: Always use color (like original `-C`).
+    - `auto` (default): Use color only when output is to a terminal.
+    - `never`: Disable color (like original `-n`).
+- [ ] **`--charset <type>`**: Set the character set for drawing lines. `<type>` can be:
+    - `utf` (default): Use standard graphics characters.
+    - `ascii`: Use plain ASCII characters (like original `-A`).
+    - `ibm-pc`: Use CP437 line-drawing characters (like original `-S`).
+- [ ] **`--raw`**: Print non-printable characters as-is. *(Replaces -N)*.
+- [ ] **`--hide-non-printable`**: Replace non-printable characters with `?` (like original `-q`).
+- [ ] **`--quote-names`**: Quote filenames in double quotes (like original `-Q`).
+- [ ] **`--no-report`**: Omit the final file/directory count report.
 
-2. Go to the end of the file and add the following line, replacing the placeholders with your actual information:
 
-   ```bash
-   alias tr="/path/to/your/project/target/release/your_binary_name"
-   ```
+### Machine-Readable Output Formats
+- [ ] **`--output <format>`**: Generate output in a machine-readable format. `<format>` can be:
+    - `xml` (like original `-X`)
+    - `json` (like original `-J`)
+    - `html` (like original `-H`)
+- [ ] **`-o, --output-file <filename>`**: Send output to a specific file instead of stdout.
+- [ ] **`--html-base <href>`**: Set the base H1 and title for HTML output.
+- [ ] **`--html-title <title>`**: Set the title and H1 header for HTML output.
+- [ ] **`--html-no-links`**: Disable hyperlinks in HTML output.
 
-   - Replace "/path/to/your/project" with the actual path to your project directory.
-   - Replace "your_binary_name" with the name of your Rust binary.
 
-3. Save your changes and exit the text editor (in nano, press Ctrl+O to save and Ctrl+X to exit).
-
-4. Apply the changes to your current terminal session by running:
-
-   ```bash
-   source ~/.bashrc
-   ```
-
-## Contributing
-
-See [CONTRIBUTING.md](https://github.com/allaboutevemirolive/treecraft/blob/main/CONTRIBUTING.md).
-
-## Licensing
-
-TreeCraft is released under the [MIT License](https://github.com/allaboutevemirolive/treecraft/blob/main/LICENSE.md). You are free to use, modify, and distribute this software in accordance with the terms of the license.
+### Miscellaneous
+- [ ] **`-h, --help`**: Print the help summary and exit.
+- [ ] **`-V, --version`**: Print the program version and exit.
