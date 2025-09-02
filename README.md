@@ -1,6 +1,6 @@
 # tree-rs
 
-### Project Description: A Modern `tree` in Rust
+### A Modern `tree` in Rust
 
 This project is a modern reimagining of the classic `tree` command, built in Rust for performance, safety, and correctness. It retains the core functionality beloved by users while overhauling the command-line interface to follow contemporary best practices.
 
